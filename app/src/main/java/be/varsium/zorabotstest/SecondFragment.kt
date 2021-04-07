@@ -19,6 +19,7 @@ import be.varsium.zorabotstest.databinding.FragmentSecondBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.bind
+import org.koin.android.ext.android.inject
 
 
 class SecondFragment : Fragment() {
@@ -35,28 +36,13 @@ class SecondFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var resource=""
-        viewLifecycleOwner.lifecycleScope.launch(){
-        resource= readTextFile(resources.openRawResource(R.raw.advanced_composer))
-        }
-            val jsonFile = Advanced_composer.fromJson(resource)
+
             view.findViewById<Button>(R.id.button_second).setOnClickListener {
                 findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
             }
+        val test :Advanced_composer by inject()
+        Log.d("",test.toString())
         }
     }
 
-    private fun readTextFile(inputStream: InputStream): String {
-        val outputStream = ByteArrayOutputStream()
-        val buf = ByteArray(2056)
-        var len: Int
-        try {
-            while (inputStream.read(buf).also { len = it } != -1) {
-                outputStream.write(buf, 0, len)
-            }
-            outputStream.close()
-            inputStream.close()
-        } catch (e: IOException) {
-        }
-        return outputStream.toString()
-    }
+

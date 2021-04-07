@@ -10,13 +10,13 @@ interface Advanced_composerService {
     fun Data():Advanced_composer
 }
 
-class  DataServiceImpl(private val advancedComposer: Advanced_composer):Advanced_composerService{
-    override fun Data(): Advanced_composer {
+class  DataServiceImpl(private val advancedComposer: Advanced_composer): Advanced_composerService {
+   override fun Data(): Advanced_composer {
         return advancedComposer
     }
 }
 
 class AdvancedComposerApplication : KoinComponent{
-    val advanced_composerService by inject<Advanced_composerService>()
+    private val advanced_composerService by inject<Advanced_composerService>()
     fun showData() = advanced_composerService.Data()
 }

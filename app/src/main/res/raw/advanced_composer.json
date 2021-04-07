@@ -1,0 +1,324 @@
+{
+  "id":"_sjhclqk1mp",
+  "name":"AdvancedComp",
+  "type":"ADVANCED_COMPOSITION",
+  "robotName":"oliver",
+  "timelineProperties":{
+    "loop":{
+      "infinite":true,
+      "repeatTimes":5
+    }
+  },
+  "timelineEntries":[
+    {
+      "id":"_sw4v5t57yf",
+      "type":"speech",
+      "blockInfo":{
+        "blocking":true,
+        "text":"hello",
+        "speechLanguage":"en-US",
+        "speechVolume":20,
+        "animated":true
+      },
+      "input": {
+        "connectors": [
+          {
+            "connection": {
+              "blockId": "_startblock"
+            }
+          }
+        ]
+      },
+      "output": {
+        "connectors": [
+          {
+            "connection": {
+              "blockId": "_svg6ks5y71"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id":"_svg6ks5y71",
+      "type":"app_start",
+      "blockInfo":{
+        "blocking":true,
+        "packageName":"com.cyanogenmod.filemanager"
+      },
+      "input": {
+        "connectors": [
+          {
+            "connection": {
+              "blockId": "_sw4v5t57yf"
+            }
+          }
+        ]
+      },
+      "output": {
+        "connectors": [
+          {
+            "connection": {
+              "blockId": "_s1idt67w46"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id":"_s1idt67w46",
+      "type":"wait_duration",
+      "blockInfo":{
+        "blocking":true,
+        "unit":"s",
+        "duration":5
+      },
+      "input": {
+        "connectors": [
+          {
+            "connection": {
+              "blockId": "_svg6ks5y71"
+            }
+          }
+        ]
+      },
+      "output": {
+        "connectors": [
+          {
+            "connection": {
+              "blockId": "_ifelseblock"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id":"_ifelseblock",
+      "type":"ifelse",
+      "blockInfo":{
+        "blocking":true,
+        "conditions":[
+          {
+            "condition":[
+              {
+                "argument": {
+                  "category": "voice",
+                  "value": "Zora",
+                  "type": "value"
+                },
+                "operator":"!",
+                "name":"speech",
+                "logical":null
+              }
+            ]
+          }
+        ]
+      },
+      "input": {
+        "connectors": [
+          {
+            "connection": {
+              "blockId": "_s1idt67w46"
+            }
+          }
+        ]
+      },
+      "output": {
+        "connectors": [
+          {
+            "connection": {
+              "blockId": "_abcdefghij"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id":"_abcdefghij",
+      "type":"math_operations",
+      "blockInfo":{
+        "blocking":true,
+        "operations":[
+          {
+            "operator":"+",
+            "arg1":{
+              "category":null,
+              "type":"number",
+              "value":0
+            },
+            "arg2":{
+              "category":null,
+              "type":"number",
+              "value":20
+            },
+            "random":true,
+            "name":"temp"
+          }
+        ]
+      },
+      "input": {
+        "connectors": [
+          {
+            "connection": {
+              "blockId": "_ifelseblock"
+            }
+          }
+        ]
+      },
+      "output": {
+        "connectors": [
+          {
+            "connection": {
+              "blockId": "_abcdefghik"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id":"_abcdefghik",
+      "type":"variables",
+      "blockInfo":{
+        "blocking":false,
+        "variables":[
+          {
+            "name":"temp",
+            "value":"0"
+          }
+        ]
+      },
+      "input": {
+        "connectors": [
+          {
+            "connection": {
+              "blockId": "_abcdefghij"
+            }
+          },
+          {
+            "connection": {
+              "blockId": "_ifelseblock"
+            }
+          }
+        ]
+      },
+      "output": {
+        "connectors": [
+          {
+            "connection": {
+              "blockId": "_abcdefghil"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id":"_abcdefghil",
+      "type":"math_formula",
+      "blockInfo":{
+        "blocking":false,
+        "formula":"{temp} * {temp}",
+        "name":"nieuw"
+      },
+      "input": {
+        "connectors": [
+          {
+            "connection": {
+              "blockId": "_abcdefghik"
+            }
+          }
+        ]
+      },
+      "output": {
+        "connectors": [
+          {
+            "connection": {
+              "blockId": "_abcdefghim"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id":"_abcdefghim",
+      "type":"advanced_loop",
+      "blockInfo":{
+        "blocking":true,
+        "conditionValue":{
+          "category":null,
+          "type":"number",
+          "value":10
+        },
+        "stepValue":{
+          "category":null,
+          "type":"number",
+          "value":1
+        },
+        "initialValue":{
+          "category":null,
+          "type":"number",
+          "value":0
+        },
+        "stepOperator":"+",
+        "name":"i",
+        "loopType":"for",
+        "conditionOperator":"<"
+      },
+      "input": {
+        "connectors": [
+          {
+            "connection": {
+              "blockId": "_abcdefghil"
+            }
+          }
+        ]
+      },
+      "output": {
+        "connectors": [
+          {
+            "connection": {
+              "blockId": "_stopblock"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "_stopblock",
+      "type": "stop",
+      "blockInfo": {
+        "blocking": false
+      },
+      "input": {
+        "connectors": [
+          {
+            "connection": {
+              "blockId": "_abcdefghim"
+            }
+          }
+        ]
+      },
+      "output": {
+        "connectors": []
+      }
+    },
+    {
+      "id": "_startblock",
+      "type": "start",
+      "blockInfo": {
+        "blocking": false
+      },
+      "input": {
+        "connectors": []
+      },
+      "output": {
+        "connectors": [
+          {
+            "connection": {
+              "blockId": "_sw4v5t57yf"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

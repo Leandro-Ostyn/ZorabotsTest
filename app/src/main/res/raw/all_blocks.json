@@ -1,0 +1,183 @@
+
+    {
+        "language": "en-US",
+        "timelineProperties": {
+            "loop": {
+                "infinite": true,
+                "repeatTimes": 5
+            }
+        },
+        "robotName": "Oliver",
+        "advancedMode": false,
+        "version": "0.1",
+        "timelineEntries": [
+            {
+                "id": "_sc03dt7fgn",
+                "type": "animation",
+                "blockInfo": {
+                    "animationId": "10102",
+                    "name": "say hello"
+                }
+            },
+            {
+                "id": "_sc03dt7agn",
+                "type": "dance",
+                "blockInfo": {
+                    "danceId": "1",
+                    "name": "Michael Jackson"
+                }
+            },
+            {
+                "id": "_sc03dt7egn",
+                "type": "emotion",
+                "blockInfo": {
+                    "emotionId": "5",
+                    "name": "Cry"
+                }
+            },
+            {
+                "id": "_sc03cdcen",
+                "type": "speech",
+                "blockInfo": {
+                    "text": "Hello Cedric",
+                    "speechVolume": 26,
+                    "speechLanguage": "en-US"
+                }
+            },
+            {
+                "id":"_s57ykwdgda",
+                "type":"wait_duration",
+                "blockInfo": {
+                  "unit":"s",
+                  "duration":"3"
+                }
+            },
+            {
+                "id":"_s57ykwdgdb",
+                "type":"wait_duration",
+                "blockInfo": {
+                    "unit":"m",
+                    "duration":"2"
+                }
+            },
+            {
+                "id":"_s57ykwdgdc",
+                "type":"wait_duration",
+                "blockInfo": {
+                    "unit":"h",
+                    "duration":"6"
+                }
+            },
+            {
+                "id":"_suq6v4m48h",
+                "type":"head_motion",
+                "blockInfo": {
+                    "yaw":-25.037139755503006,
+                    "pitch":-9.01502400000002
+                }
+            },
+            {
+                "id": "_sqyfmo2r53",
+                "type": "multimedia",
+                "blockInfo": {
+                    "blocking": false,
+                    "fileName": "info",
+                    "extension": "PNG",
+                    "type": "image",
+                    "loop": false,
+                    "path": "/storage/emulated/0/zbos_media_library"
+                }
+            },
+            {
+                "id":"_s9qdvayqxy",
+                "type":"slam_poi",
+                "blockInfo":{
+                    "blocking":true,
+                    "mapName":"demo1",
+                    "uuid":"a72c409d-4cfe-474b-8d20-e7a5fd13ebc2",
+                    "textOnRetry": "My path is blocked, please let me pass through",
+                    "language": "en-US"
+                }
+            },
+			{
+				"id":"_sj0a7brqq2",
+				"type":"open_browser",
+				"blockInfo": {
+					"blocking": false,
+					"url": "https://youtube.com"
+				}
+			},
+            {
+                "id":"_s3plf4dfjc",
+                "type":"motion_detect",
+                "blockInfo": {
+                    "duration" : "10",
+                    "unit": "s",
+                    "upload" : true,
+                    "stopOnDetection": true
+                }
+            },
+            {
+                "id":"_ssdwdt2bhi",
+                "type":"wait_sensor",
+                "blockInfo": {
+                    "blocking": true,
+                    "sensorId": "BASE_FRONT"
+                }
+            },
+            {
+                "id":"_sb9lhiqp2k",
+                "type":"mqtt_publish",
+                "blockInfo": {
+                    "blocking": false,
+                    "topic": "publish/test",
+                    "payload": "payload"
+                }
+            },
+            {
+                "id":"_shzkwanjln",
+                "type":"mqtt_subscribe",
+                "blockInfo": {
+                    "blocking": false,
+                    "topic": "subscribe/test"
+                }
+            },
+            {
+                "id": "_sqyz9evsz6",
+                "type": "face_detect",
+                "blockInfo": {
+                    "blocking": true,
+                    "faceCount": 4,
+                    "faceKnown": true
+                }
+            },
+            {
+                "id": "_s9q0ns03ms",
+                "type": "multimedia_stop",
+                "blockInfo": {
+                    "blocking": true,
+                    "type": "image"
+                }
+            },
+            {
+                "id": "_dasg159ab5",
+                "type": "change_datasource",
+                "blockInfo": {
+                    "blocking": false,
+                    "datasourceId": "kiosk_default"
+                }
+            },
+            {
+                "id": "_jfrov158vf",
+                "type": "voice",
+                "blockInfo": {
+                    "blocking": true,
+                    "commands": [
+                        {"command": "test"},
+                        {"command": "second test"}
+                    ],
+                    "language": "en-US"
+                }
+            }
+        ]
+    }

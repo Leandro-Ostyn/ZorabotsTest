@@ -24,7 +24,7 @@ data class BlockInfo (
     val speechVolume: Long? = null,
     val speechLanguage: String? = null,
     val unit: String? = null,
-    val duration: String? = null,
+    val duration: Int? = null,
     val yaw: Double? = null,
     val pitch: Double? = null,
     val blocking: Boolean? = null,
@@ -65,7 +65,7 @@ data class TimelineProperties (
 
 data class Loop (
     val infinite: Boolean,
-    val repeatTimes: Long
+    val repeatTimes: Int
 )
 
 data class ConditionValue (

@@ -3,9 +3,9 @@ package be.varsium.models
 import com.beust.klaxon.Json
 
 data class TimelineEntry (
-    val id: String,
-    val type: String,
-    val blockInfo: BlockInfo
+    val id: String?,
+    val type: String?,
+    val blockInfo: BlockInfo?
 )
 
 data class BlockInfo (

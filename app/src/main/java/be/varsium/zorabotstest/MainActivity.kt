@@ -1,6 +1,7 @@
 package be.varsium.zorabotstest
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -20,8 +21,8 @@ import java.lang.reflect.Field
 
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var resource: MutableList<NamedFile>
-   public var moduleList = mutableListOf<Module>()
+     lateinit var resource: MutableList<NamedFile>
+    var moduleList = mutableListOf<Module>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -33,9 +34,9 @@ class MainActivity : AppCompatActivity() {
         for (file in resource) {
             val module =
                 module {
-                    single(named(file.name)) { AdvancedComposer.fromJson(file.fileInJsonString)?.let { it1 ->
+                    single(named(file.name)) { AdvancedComposer.fromJson(file.fileInJsonString)?.let { composer ->
                         DataServiceImpl(
-                            it1
+                            composer
                         )
                     } }
                 }

@@ -22,7 +22,6 @@ import org.koin.core.context.loadKoinModules
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
 class FirstFragment : Fragment() {
-  private val getModule= getKoin()
     private lateinit var binding: FragmentFirstBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,20 +34,20 @@ class FirstFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-       var modules= (activity as MainActivity).moduleList
         binding.btnAdvancedComposer.setOnClickListener {
-            findNavController().navigate(FirstFragmentDirections.actionFirstFragmentToSecondFragment("AdvancedComposer"))
+            findNavController().navigate(FirstFragmentDirections.actionFirstFragmentToSecondFragment("advanced_composer"))
         }
         binding.btnAllBlocks.setOnClickListener {
-            findNavController().navigate(FirstFragmentDirections.actionFirstFragmentToSecondFragment("AllBlocks"))
+            findNavController().navigate(FirstFragmentDirections.actionFirstFragmentToSecondFragment("all_blocks"))
         }
         binding.btnMediaMarkt.setOnClickListener {
-            findNavController().navigate(FirstFragmentDirections.actionFirstFragmentToSecondFragment("MediaMarkt"))
+            findNavController().navigate(FirstFragmentDirections.actionFirstFragmentToSecondFragment("media_composition"))
         }
 
-
-        view.findViewById<Button>(R.id.btnAdvanced_composer).setOnClickListener {
-            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+        binding.btnUrlJson.setOnClickListener {
+            if (!binding.txtUrl.text.isNullOrBlank()){
+                findNavController().navigate(FirstFragmentDirections.actionFirstFragmentToSecondFragment(binding.txtUrl.text.toString()))
+            }
         }
     }
 

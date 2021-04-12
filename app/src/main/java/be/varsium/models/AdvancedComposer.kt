@@ -7,11 +7,11 @@ data class AdvancedComposer(
         val name: String,
         val type: String,
         val robotName: String,
-        val timelineProperties: TimelineProperties,
-        val timelineEntries: List<TimelineEntry>,
-        val language: String,
-        val advancedMode: Boolean,
-        val version: String,
+        val timelineProperties: TimelineProperties?,
+        val timelineEntries: ArrayList<TimelineEntry>?,
+        val language: String?,
+        val advancedMode: Boolean=false,
+        val version: String?,
     ) {
         public fun toJson() = Klaxon().toJsonString(this)
 

@@ -3,16 +3,36 @@ package be.varsium.models
 import com.beust.klaxon.Json
 
 data class TimelineEntry (
-    val id: String?,
-    val type: String?,
-    val blockInfo: BlockInfo?
+    val id: String,
+    val type: String,
+    val blockInfo: BlockInfo,
+    val input: Put? = null,
+    val output: Put? = null
 )
 
 data class BlockInfo (
+    val blocking: Boolean? = null,
+    val text: String? = null,
+    val speechLanguage: String? = null,
+    val speechVolume: Long? = null,
+    val animated: Boolean? = null,
+    val packageName: String? = null,
+    val unit: String? = null,
+    val duration: Any? = null,
+    val conditions: List<BlockInfoCondition>? = null,
+    val operations: List<Operation>? = null,
+    val variables: List<Variable>? = null,
+    val formula: String? = null,
+    val name: String? = null,
+    val conditionValue: ConditionValue? = null,
+    val stepValue: ConditionValue? = null,
+    val initialValue: ConditionValue? = null,
+    val stepOperator: String? = null,
+    val loopType: String? = null,
+    val conditionOperator: String? = null,
+
     @Json(name = "animationId")
     val animationID: String? = null,
-
-    val name: String? = null,
 
     @Json(name = "danceId")
     val danceID: String? = null,
@@ -20,14 +40,8 @@ data class BlockInfo (
     @Json(name = "emotionId")
     val emotionID: String? = null,
 
-    val text: String? = null,
-    val speechVolume: Long? = null,
-    val speechLanguage: String? = null,
-    val unit: String? = null,
-    val duration: Int? = null,
     val yaw: Double? = null,
     val pitch: Double? = null,
-    val blocking: Boolean? = null,
     val fileName: String? = null,
     val extension: String? = null,
     val type: String? = null,
@@ -57,15 +71,6 @@ data class BlockInfo (
 
 data class Command (
     val command: String
-)
-
-data class TimelineProperties (
-    val loop: Loop
-)
-
-data class Loop (
-    val infinite: Boolean,
-    val repeatTimes: Int
 )
 
 data class ConditionValue (
@@ -111,7 +116,17 @@ data class Put (
 data class Connector (
     val connection: Connection
 )
+
 data class Connection (
     @Json(name = "blockId")
     val blockID: String
+)
+
+data class TimelineProperties (
+    val loop: Loop
+)
+
+data class Loop (
+    val infinite: Boolean?,
+    val repeatTimes: Long
 )

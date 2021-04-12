@@ -14,9 +14,3 @@ class  DataServiceImpl(private val advancedComposer: AdvancedComposer): Advanced
         return advancedComposer
     }
 }
-
-//
-//class AdvancedComposerApplication : KoinComponent{
-//    private val advancedComposerService by inject<AdvancedComposerService>()
-//    fun showData() = advancedComposerService.Data()
-//}

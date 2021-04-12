@@ -27,5 +27,9 @@
         <argument
             android:name="Source"
             app:argType="string" />
+        <argument
+            android:name="UrlSource"
+            app:argType="boolean"
+            android:defaultValue="false" />
     </fragment>
 </navigation>

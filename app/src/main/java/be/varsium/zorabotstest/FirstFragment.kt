@@ -34,6 +34,8 @@ class FirstFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //Safeargs gebruikt + hardcoded omdat het niet zo belangrijk was op welke manier dit op de gui getoond werd. -> dit kan dynamisch gemaakt worden naargelang de knoppen
+        //knoppen + directions gaan generene volgens alle R.raw files die er zijn.
         binding.btnAdvancedComposer.setOnClickListener {
             findNavController().navigate(FirstFragmentDirections.actionFirstFragmentToSecondFragment("advanced_composer"))
         }
@@ -46,7 +48,7 @@ class FirstFragment : Fragment() {
 
         binding.btnUrlJson.setOnClickListener {
             if (!binding.txtUrl.text.isNullOrBlank()){
-                findNavController().navigate(FirstFragmentDirections.actionFirstFragmentToSecondFragment(binding.txtUrl.text.toString()))
+                findNavController().navigate(FirstFragmentDirections.actionFirstFragmentToSecondFragment(binding.txtUrl.text.toString(),true))
             }
         }
     }

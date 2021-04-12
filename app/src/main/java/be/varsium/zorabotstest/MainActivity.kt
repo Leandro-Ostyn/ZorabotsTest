@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         for (file in resource) {
+            Log.d("names",file.name)
             val module =
                 module {
                     single(named(file.name)) { AdvancedComposer.fromJson(file.fileInJsonString)?.let { composer ->

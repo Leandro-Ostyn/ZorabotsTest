@@ -8,17 +8,9 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LifecycleCoroutineScope
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import be.varsium.models.Advanced_composer
-import java.io.ByteArrayOutputStream
-import java.io.IOException
-import java.io.InputStream
+import be.varsium.models.AdvancedComposer
 import be.varsium.zorabotstest.databinding.FragmentSecondBinding
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import org.koin.android.ext.android.bind
 import org.koin.android.ext.android.inject
 
 
@@ -40,7 +32,7 @@ class SecondFragment : Fragment() {
             view.findViewById<Button>(R.id.button_second).setOnClickListener {
                 findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
             }
-        val test :Advanced_composer by inject()
+        val test :AdvancedComposer by inject()
         Log.d("",test.toString())
         }
     }

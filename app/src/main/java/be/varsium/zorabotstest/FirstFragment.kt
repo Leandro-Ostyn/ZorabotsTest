@@ -6,36 +6,45 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import androidx.lifecycle.lifecycleScope
+import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
-import be.varsium.Advanced_composerService
-import be.varsium.DataServiceImpl
-import be.varsium.models.Advanced_composer
-import kotlinx.coroutines.launch
+import be.varsium.AdvancedComposerService
+import be.varsium.models.AdvancedComposer
+import be.varsium.zorabotstest.databinding.FragmentFirstBinding
+import org.koin.android.ext.android.getKoin
 import org.koin.android.java.KoinAndroidApplication
-import org.koin.core.context.KoinContext
-import org.koin.core.context.startKoin
-import org.koin.dsl.module
-import java.io.ByteArrayOutputStream
-import java.io.IOException
-import java.io.InputStream
+import org.koin.core.Koin
+import org.koin.core.KoinApplication
+import org.koin.core.context.GlobalContext
+import org.koin.core.context.loadKoinModules
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
 class FirstFragment : Fragment() {
-
-
+  private val getModule= getKoin()
+    private lateinit var binding: FragmentFirstBinding
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_first, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_first, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+       var modules= (activity as MainActivity).moduleList
+        binding.btnAdvancedComposer.setOnClickListener {
+            findNavController().navigate(FirstFragmentDirections.actionFirstFragmentToSecondFragment("AdvancedComposer"))
+        }
+        binding.btnAllBlocks.setOnClickListener {
+            findNavController().navigate(FirstFragmentDirections.actionFirstFragmentToSecondFragment("AllBlocks"))
+        }
+        binding.btnMediaMarkt.setOnClickListener {
+            findNavController().navigate(FirstFragmentDirections.actionFirstFragmentToSecondFragment("MediaMarkt"))
+        }
 
 
         view.findViewById<Button>(R.id.btnAdvanced_composer).setOnClickListener {

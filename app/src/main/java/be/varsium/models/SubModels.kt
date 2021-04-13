@@ -1,7 +1,9 @@
 package be.varsium.models
 
 import com.beust.klaxon.Json
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 data class TimelineEntry (
     val id: String,
     val type: String,
@@ -110,16 +112,16 @@ data class Variable (
 )
 
 data class Put (
-    val connectors: List<Connector>
+    val connectors: List<Connector?>
 )
 
 data class Connector (
-    val connection: Connection
+    val connection: Connection?=null
 )
 
 data class Connection (
     @Json(name = "blockId")
-    val blockID: String
+    val blockID: String?=null
 )
 
 data class TimelineProperties (

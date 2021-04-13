@@ -1,6 +1,7 @@
 package be.varsium.zorabotstest
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleCoroutineScope
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import be.varsium.DataServiceImpl
 import be.varsium.models.AdvancedComposer
@@ -18,6 +20,7 @@ import be.varsium.models.TimelineEntry
 import be.varsium.network.ZorabotsApi
 import be.varsium.zorabotstest.databinding.FragmentSecondBinding
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
 import org.json.JSONArray
 import org.json.JSONException
@@ -30,8 +33,8 @@ import kotlin.reflect.full.memberProperties
 
 class SecondFragment : Fragment() {
     private lateinit var binding: FragmentSecondBinding
-    private lateinit var scope: LifecycleCoroutineScope
     private var parsingSuccesFull = true
+    private lateinit var advancedComposer: AdvancedComposer
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -43,52 +46,30 @@ class SecondFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val source = SecondFragmentArgs.fromBundle(requireArguments()).Source
+        var source = SecondFragmentArgs.fromBundle(requireArguments()).Source
         val urlSource = SecondFragmentArgs.fromBundle(requireArguments()).UrlSource
         if (!urlSource) {
             val dataservice: DataServiceImpl by inject(named(source))
-            val advancedComposer = dataservice.Data();
-
-            for (variable in AdvancedComposer::class.memberProperties) {
-                if (variable.getValue(advancedComposer, variable).toString() != "null") {
-                    if (variable.name != "timelineEntries") {
-                        val layout = LinearLayout(activity)
-                        layout.addView(
-                            createHorizontalViewAdvancedComposer(
-                                advancedComposer,
-                                variable
-                            )
-                        )
-                        binding.cardLinear.addView(layout)
-                    } else if (variable.name == "timelineEntries") {
-                        for (timeline in (variable.getValue(
-                            advancedComposer,
-                            variable
-                        ) as ArrayList<TimelineEntry>)) {
-                            createTimeLineEntry(timeline)
-                        }
-                    }
-                }
-            }
-
+            advancedComposer = dataservice.Data();
+            createGuiWithComposer(advancedComposer)
 
         } else {
-            var advancedComposer: AdvancedComposer
-            scope.launch(Dispatchers.IO) {
+
+            lifecycleScope.launch(Dispatchers.Main) {
+                if (source.substring(source.length - 1, source.length) != "/") {
+                    source = "$source/"
+                }
                 var response = ZorabotsApi(source).zoraBotsApiService.getJsonsAsync().await()
                 if (response.isSuccessful) {
-                    if (isJSONValid(response.body())) {
-                        var parsing = response.body()?.let { AdvancedComposer.fromJson(it) }
-                        if (parsing != null) {
-                            advancedComposer = parsing
-                        } else {
-                            parsingSuccesFull = false
-                        }
+                    val body = response.body()
+                    if (body != null) {
+                        advancedComposer = body
                     }
                 }
-            }
-            if (parsingSuccesFull) {
-
+            }.invokeOnCompletion {
+                if (this::advancedComposer.isInitialized) {
+                    createGuiWithComposer(advancedComposer)
+                }
             }
 
         }
@@ -97,22 +78,34 @@ class SecondFragment : Fragment() {
         }
     }
 
-    private fun isJSONValid(body: String?): Boolean {
-        try {
-            JSONObject(body)
-        } catch (ex: JSONException) {
-            try {
-                JSONArray(body)
-            } catch (ex1: JSONException) {
-                return false
+
+//Everything for Dynamic made Gui
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    private fun createGuiWithComposer(advancedComposer: AdvancedComposer) {
+        for (variable in AdvancedComposer::class.memberProperties) {
+            if (variable.getValue(advancedComposer, variable).toString() != "null") {
+                if (variable.name != "timelineEntries") {
+                    val layout = LinearLayout(activity)
+                    layout.addView(
+                        createHorizontalViewAdvancedComposer(
+                            advancedComposer,
+                            variable
+                        )
+                    )
+                    binding.cardLinear.addView(layout)
+                } else if (variable.name == "timelineEntries") {
+                    for (timeline in (variable.getValue(
+                        advancedComposer,
+                        variable
+                    ) as ArrayList<TimelineEntry>)) {
+                        createTimeLineEntry(timeline)
+                    }
+                }
             }
         }
-        return true
     }
 
-
-    //Everything for Dynamic made Gui
-    //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     private fun createHorizontalViewAdvancedComposer(
         advancedComposer: AdvancedComposer,
         variable: KProperty1<AdvancedComposer, *>
@@ -147,7 +140,10 @@ class SecondFragment : Fragment() {
         return horizontalView
     }
 
-    private fun createHorizontalViewTimeLine(timeline: TimelineEntry,variable: KProperty1<TimelineEntry, *>): LinearLayout {
+    private fun createHorizontalViewTimeLine(
+        timeline: TimelineEntry,
+        variable: KProperty1<TimelineEntry, *>
+    ): LinearLayout {
         val text = TextView(activity)
         text.textSize = 15F
         val label = TextView(activity)
@@ -160,7 +156,8 @@ class SecondFragment : Fragment() {
         horizontalView.addView(text)
         return horizontalView
     }
-    private fun createTimeLineEntry(timeline: TimelineEntry){
+
+    private fun createTimeLineEntry(timeline: TimelineEntry) {
         val text = TextView(activity)
         text.textSize = 15F
         val label = TextView(activity)
@@ -169,18 +166,18 @@ class SecondFragment : Fragment() {
         verticalView.orientation = LinearLayout.VERTICAL
         verticalView.setBackgroundResource(R.drawable.customborder)
 
-        for (timeVariable in TimelineEntry::class.memberProperties){
-            if (timeVariable.getValue(timeline, timeVariable).toString() !="null"){
-              if (timeVariable.name == "blockInfo"){
-                  verticalView.addView(createBlocks(timeline.blockInfo))
-              }
-                else{
-                  verticalView.addView(createHorizontalViewTimeLine(timeline,timeVariable))
+        for (timeVariable in TimelineEntry::class.memberProperties) {
+            if (timeVariable.getValue(timeline, timeVariable).toString() != "null") {
+                if (timeVariable.name == "blockInfo") {
+                    verticalView.addView(createBlocks(timeline.blockInfo))
+                } else {
+                    verticalView.addView(createHorizontalViewTimeLine(timeline, timeVariable))
                 }
             }
         }
-binding.VerticalView.addView(verticalView)
+        binding.VerticalView.addView(verticalView)
     }
+
     private fun createBlocks(blockInfo: BlockInfo): LinearLayout {
         val verticalView = LinearLayout(activity)
         verticalView.orientation = LinearLayout.VERTICAL

@@ -43,7 +43,7 @@ class FirstFragment : Fragment() {
             findNavController().navigate(FirstFragmentDirections.actionFirstFragmentToSecondFragment("all_blocks"))
         }
         binding.btnMediaMarkt.setOnClickListener {
-            findNavController().navigate(FirstFragmentDirections.actionFirstFragmentToSecondFragment("media_composition"))
+            findNavController().navigate(FirstFragmentDirections.actionFirstFragmentToSecondFragment("mediamarkt_composition"))
         }
 
         binding.btnUrlJson.setOnClickListener {

@@ -40,6 +40,6 @@ class ZorabotsApi(private val baseUrl: String) {
 
 interface ZoraBotsApiService {
     @GET("")
-    fun getJsonsAsync(): Deferred<Response<AdvancedComposer>>
+    fun getJsonsAsync(): Deferred<Response<String>>
 }
 

@@ -15,6 +15,9 @@ import be.varsium.network.ZorabotsApi
 import be.varsium.zorabotstest.databinding.FragmentSecondBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.json.JSONArray
+import org.json.JSONException
+import org.json.JSONObject
 import org.koin.android.ext.android.inject
 import org.koin.core.qualifier.named
 
@@ -41,7 +44,10 @@ val source =SecondFragmentArgs.fromBundle(requireArguments()).Source
         else{
             var advancedComposer:AdvancedComposer
         scope.launch(Dispatchers.IO){
-                advancedComposer = ZorabotsApi(source).zoraBotsApiService.getJsonsAsync().await()
+                var response = ZorabotsApi(source).zoraBotsApiService.getJsonsAsync().await()
+            if (response.isSuccessful){
+                if (isJSONValid(response.body()?.toJson()))
+            }
         }
 
         }
@@ -49,6 +55,19 @@ val source =SecondFragmentArgs.fromBundle(requireArguments()).Source
                 findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
             }
         }
+
+    fun isJSONValid(body: String?): Boolean {
+        try {
+            JSONObject(body)
+        } catch (ex: JSONException) {
+            try {
+                JSONArray(body)
+            } catch (ex1: JSONException) {
+                return false
+            }
+        }
+        return true
+    }
     }
 
 
